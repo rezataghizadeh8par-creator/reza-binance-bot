@@ -9,6 +9,8 @@ app.use(express.urlencoded({ extended: true }));
 const API_KEY = process.env.BINANCE_API_KEY;
 const API_SECRET = process.env.BINANCE_SECRET;
 
+let lastSignal = null;
+
 app.get("/", (req, res) => {
   res.json({ ok: true, message: "REZA Binance Bot is running" });
 });
@@ -19,6 +21,14 @@ app.post("/", async (req, res) => {
 
     const symbol = String(data.symbol || "BTCUSDT").replace(".P", "");
     const side = String(data.side || data.signal || "BUY").toUpperCase() === "SELL" ? "SELL" : "BUY";
+    if (lastSignal === side) {
+    return res.json({
+        ok: true,
+        message: "Duplicate signal ignored"
+    });
+}
+
+lastSignal = side;
     const type = String(data.type || data.orderType || "MARKET").toUpperCase();
     const quantity = String(data.quantity || data.qty || "0.001");
 
