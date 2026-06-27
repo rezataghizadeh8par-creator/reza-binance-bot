@@ -18,6 +18,7 @@ app.get("/", (req, res) => {
 app.post("/", async (req, res) => {
   try {
     const data = req.body || {};
+    console.log("WEBHOOK RECEIVED:", JSON.stringify(data));
 
     const symbol = String(data.symbol || "BTCUSDT").replace(".P", "");
     const side = String(data.side || data.signal || "BUY").toUpperCase() === "SELL" ? "SELL" : "BUY";
