@@ -27,7 +27,10 @@ async function binanceRequest(method, path, paramsObj = {}) {
 
   params.append("signature", sign(params));
 
-  const url = `${BASE_URL}${path}`;
+  const url =
+  method === "GET"
+    ? `${BASE_URL}${path}?${params.toString()}`
+    : `${BASE_URL}${path}`;
 
   const response = await fetch(url, {
     method,
