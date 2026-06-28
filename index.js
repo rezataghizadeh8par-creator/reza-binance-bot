@@ -59,6 +59,7 @@ lastSignal = side;
     });
 
     const text = await response.text();
+    console.log("BINANCE RESPONSE:", text);
     res.status(response.status).type("application/json").send(text);
   } catch (err) {
     res.status(500).json({ ok: false, error: err.message });
